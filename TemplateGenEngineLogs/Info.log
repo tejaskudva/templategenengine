@@ -1,0 +1,2 @@
+2025-08-25 16:43:00,240 [main] [INFO  ] StartupInfoLogger.logStarting(StartupInfoLogger.java:53) - Starting TemplategenengineApplication using Java 21.0.8 with PID 13240 (C:\Users\tejas.kudva\vscode-workspace\templategenengine\target\classes started by Tejas.Kudva in C:\Users\tejas.kudva\vscode-workspace\templategenengine)
+2025-08-25 16:43:00,255 [main] [INFO  ] SpringApplication.logStartupProfileInfo(SpringApplication.java:652) - No active profile set, falling back to 1 default profile: "default"

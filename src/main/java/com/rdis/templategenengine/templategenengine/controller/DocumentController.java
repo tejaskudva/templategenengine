@@ -1,0 +1,51 @@
+package com.rdis.templategenengine.templategenengine.controller;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.rdis.templategenengine.templategenengine.service.PdfGenerationService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/api/documents")
+public class DocumentController {
+    
+    private final PdfGenerationService pdfGenerationService;
+    
+    @PostMapping("/generate")
+    public ResponseEntity<byte[]> generateDocument(
+            @RequestParam String documentName,
+            @RequestParam String identifier) {
+        
+        try {
+            log.info("Generating document: {} with identifier: {}", documentName, identifier);
+            
+            byte[] pdfBytes = pdfGenerationService.generatePdf(documentName, identifier);
+            
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", 
+                documentName + "_" + identifier + ".pdf");
+            
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(pdfBytes);
+                    
+        } catch (Exception e) {
+            log.error("Error generating document: {} for identifier: {}", 
+                documentName, identifier, e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+    
+    @GetMapping("/test")
+    public ResponseEntity<String> testEndpoint() {
+        return ResponseEntity.ok("Document generation service is running!");
+    }
+}

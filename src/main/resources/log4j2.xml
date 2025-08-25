@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d [%p] %c{1} - %m%n" />
+        </Console>
+
+        <RollingFile name="Info_File"
+            fileName="TemplateGenEngineLogs/Info.log"
+            filePattern="Dufaa-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout>
+                <Pattern>%d [%t] [%-6p] %C{1}.%M(%F:%L) - %m%n</Pattern>
+            </PatternLayout>
+
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="30" />
+            <Filters>
+                <LevelRangeFilter minLevel="INFO" maxLevel="INFO"
+                    onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+        </RollingFile>
+        <RollingFile name="Error_File"
+            fileName="TemplateGenEngineLogs/Error.log"
+            filePattern="Dufaa-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout>
+                <Pattern>%d [%-6p] %C{1}.%M(%F:%L) - %m%n</Pattern>
+            </PatternLayout>
+
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="30" />
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT"
+                    onMismatch="DENY" />
+            </Filters>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info" additivity="false">
+            <AppenderRef ref="Console" />
+        </Root>
+        <Logger name="com.rdis.templategenengine.templategenengine" level="info" additivity="false">
+            <AppenderRef ref="Info_File" />
+            <AppenderRef ref="Error_File" />
+        </Logger>
+    </Loggers>
+</Configuration>

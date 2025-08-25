@@ -1,0 +1,22 @@
+{
+  "header": {
+    "identifier": "INV-12345",
+    "customerName": "Acme Corp",
+    "customerEmail": "contact@acme.com",
+    "invoiceDate": "2025-08-25",
+    "dueDate": "2025-09-25",
+    "total": 2376,
+    "tax": 176,
+    "discount": 50,
+    "notes": "Thank you for your business!"
+  },
+  "items": [
+    {"Description":"Consultation","Qty":"8 hours","Rate":150,"Amount":1200},
+    {"Description":"Analysis","Qty":"4 hours","Rate":200,"Amount":800},
+    {"Description":"Documentation","Qty":"2 hours","Rate":100,"Amount":200}
+  ],
+  "payments": [
+    {"PaymentDate":"2025-08-26","Mode":"Credit Card","Amount":1000},
+    {"PaymentDate":"2025-08-28","Mode":"Bank Transfer","Amount":1376}
+  ]
+}
