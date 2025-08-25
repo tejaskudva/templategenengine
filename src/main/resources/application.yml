@@ -1,6 +1,6 @@
 documents:
-  documentName: invoice
-  procedure: get_invoice_mock_data
-  lists:
-    - name: items
-    - name: payments
+  invoice:
+    procedure: get_invoice_mock_data
+    lists:
+      - name: items
+      - name: payments

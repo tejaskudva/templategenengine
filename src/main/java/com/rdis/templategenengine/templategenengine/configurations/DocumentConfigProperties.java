@@ -13,7 +13,7 @@ import java.util.Map;
 @Data
 public class DocumentConfigProperties {
 
-    private Map<String, DocumentConfig> documents;
+    private Map<String, DocumentConfig> map;
 
     @Data
     public static class DocumentConfig {
