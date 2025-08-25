@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class TemplateRepository {
-    
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     // @formatter:off
@@ -24,13 +24,15 @@ public class TemplateRepository {
     // @formatter:on
     public String fetchDocumentDataFromProc(String identifier, String procedureName) {
 
+        String fullProcedureCall = "EXEC " + procedureName + " :invoiceId";
+
         // Call stored procedure (assumes JSON output in one column)
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("invoiceId", identifier);
 
         // Call stored procedure / query
         return jdbcTemplate.queryForObject(
-                procedureName, // e.g., "EXEC get_invoice_mock_data :identifier"
+                fullProcedureCall, // e.g., "EXEC get_invoice_mock_data :identifier"
                 params,
                 String.class);
     }
