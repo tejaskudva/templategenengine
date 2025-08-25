@@ -14,5 +14,4 @@ public class DocumentConfigService {
     public DocumentConfigProperties.DocumentConfig getConfig(String documentName) {
         return documentConfigProperties.getDocuments().get(documentName.toLowerCase());
     }
-
 }

@@ -2,7 +2,6 @@ package com.rdis.templategenengine.templategenengine.service;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -11,6 +10,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rdis.templategenengine.templategenengine.configurations.DocumentConfigProperties;
+import com.rdis.templategenengine.templategenengine.repository.TemplateRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,16 +27,31 @@ public class PdfGenerationService {
 
     private final TemplateEngine templateEngine;
     private final DocumentConfigService dConfigService;
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final TemplateRepository repo;
     private final ObjectMapper mapper;
 
+    // @formatter:off
+    /**
+     * Generates a PDF document from a Thymeleaf template and data.
+     * This is the main orchestrator method that combines all steps:
+     * 1. Fetches data from a database or uses mock data.
+     * 2. Processes a Thymeleaf template to create HTML content.
+     * 3. Converts the HTML content into a byte array representing a PDF.
+     *
+     * @param documentName The name of the document, which corresponds to the template and mock data file names.
+     * @param identifier The unique identifier used to fetch live data from the database.
+     * @param mock A flag to determine whether to use mock data (true) or live data from the database (false).
+     * @return A byte array containing the generated PDF document.
+     * @throws Exception if any part of the PDF generation process fails (e.g., data fetching, template processing, or conversion).
+     */
+    // @formatter:on
     public byte[] generatePdf(String documentName, String identifier, boolean mock) throws Exception {
         log.info("Starting PDF generation for document: {}", documentName);
 
         // Step 1: Build the data map (from repo layer or manually for now)
         Map<String, Object> data = new HashMap<>();
         if (mock) {
-            data = fetchMockData();
+            data = fetchMockData(documentName);
         } else {
             data = fetchDataForDocument(documentName, identifier);
         }
@@ -48,6 +63,16 @@ public class PdfGenerationService {
         return convertHtmlToPdf(htmlContent);
     }
 
+    // @formatter:off
+    /**
+     * Processes a Thymeleaf template with the provided data to generate HTML content.
+     * The method automatically appends "/template" to the document name to locate the template file.
+     *
+     * @param documentName The base name of the document, used to find the corresponding Thymeleaf template.
+     * @param data A map of key-value pairs to be injected into the template as variables.
+     * @return A string containing the processed HTML content.
+     */
+    // @formatter:on
     private String processTemplate(String documentName, Map<String, Object> data) {
         Context context = new Context();
         context.setVariables(data);
@@ -56,6 +81,16 @@ public class PdfGenerationService {
         return templateEngine.process(templatePath, context);
     }
 
+    // @formatter:off
+    /**
+     * Converts a string of HTML content into a PDF document as a byte array.
+     * It uses the ITextRenderer library to perform the conversion.
+     *
+     * @param htmlContent The HTML content string to be converted to PDF.
+     * @return A byte array containing the generated PDF document.
+     * @throws Exception if the conversion process from HTML to PDF fails.
+     */
+    // @formatter:on
     private byte[] convertHtmlToPdf(String htmlContent) throws Exception {
         log.info("Converting HTML to PDF");
 
@@ -74,8 +109,21 @@ public class PdfGenerationService {
         }
     }
 
+    // @formatter:off
+    /**
+     * Fetches live data for a document from a database using a stored procedure.
+     * The method retrieves the stored procedure name from a document configuration service,
+     * calls the repository layer to execute it, and then parses the JSON output into a map.
+     * It also enriches the data with system fields, such as the current date.
+     *
+     * @param documentName The name of the document, used to look up the stored procedure.
+     * @param identifier The unique identifier used as a parameter for the stored procedure.
+     * @return A map containing the fetched and enriched data from the database.
+     * @throws Exception if there is an issue with fetching data, executing the stored procedure, or parsing the JSON.
+     */
+    // @formatter:on
     @SuppressWarnings("unchecked")
-    public Map<String, Object> fetchDataForDocument(String documentName, String identifier) throws Exception {
+    private Map<String, Object> fetchDataForDocument(String documentName, String identifier) throws Exception {
         // Get document config
         DocumentConfigProperties.DocumentConfig config = dConfigService.getConfig(documentName);
 
@@ -84,10 +132,7 @@ public class PdfGenerationService {
         params.addValue("identifier", identifier);
 
         // Call stored procedure / query
-        String json = jdbcTemplate.queryForObject(
-                config.getProcedure(), // e.g., "EXEC get_invoice_mock_data :identifier"
-                params,
-                String.class);
+        String json = repo.fetchDocumentDataFromProc(identifier, config.getProcedure());
 
         // Parse JSON into map
         Map<String, Object> data = mapper.readValue(json,
@@ -101,8 +146,18 @@ public class PdfGenerationService {
         return data;
     }
 
-    public Map<String, Object> fetchMockData() throws Exception {
-        InputStream is = new ClassPathResource("invoice-mock.json").getInputStream();
+    // @formatter:off
+    /**
+     * Fetches mock data for a document from a JSON file located in the classpath.
+     * The method assumes the mock JSON file is named `[documentName]-mock.json`.
+     *
+     * @param documentName The name of the document, used to construct the mock JSON file name.
+     * @return A map containing the mock data parsed from the JSON file.
+     * @throws Exception if the mock JSON file is not found or cannot be parsed.
+     */
+    // @formatter:on
+    private Map<String, Object> fetchMockData(String documentName) throws Exception {
+        InputStream is = new ClassPathResource(documentName + "-mock.json").getInputStream();
         Map<String, Object> data = mapper.readValue(is, new TypeReference<Map<String, Object>>() {
         });
         return data;
