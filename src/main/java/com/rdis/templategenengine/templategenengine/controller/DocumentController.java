@@ -21,12 +21,13 @@ public class DocumentController {
     @PostMapping("/generate")
     public ResponseEntity<byte[]> generateDocument(
             @RequestParam String documentName,
-            @RequestParam String identifier) {
+            @RequestParam String identifier,
+            @RequestParam(defaultValue = "false") boolean mock) {
         
         try {
             log.info("Generating document: {} with identifier: {}", documentName, identifier);
             
-            byte[] pdfBytes = pdfGenerationService.generatePdf(documentName, identifier);
+            byte[] pdfBytes = pdfGenerationService.generatePdf(documentName, identifier, mock);
             
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
