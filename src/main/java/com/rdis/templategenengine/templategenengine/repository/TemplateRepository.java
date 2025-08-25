@@ -36,4 +36,13 @@ public class TemplateRepository {
                 params,
                 String.class);
     }
+
+    public String getSTypeUserSessionId() {
+        String query = "select top 1 randomnumber from pdbconnection where usertype = :userType";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("userType", "S");
+
+        return jdbcTemplate.queryForObject(query, params, String.class);
+    }
 }
