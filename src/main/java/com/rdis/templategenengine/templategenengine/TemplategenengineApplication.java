@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfigurati
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-//@SpringBootApplication
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, JndiDataSourceAutoConfiguration.class })
+@SpringBootApplication
+//@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, JndiDataSourceAutoConfiguration.class })
 public class TemplategenengineApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
