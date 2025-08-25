@@ -26,7 +26,7 @@ public class TemplateRepository {
 
         // Call stored procedure (assumes JSON output in one column)
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("identifier", identifier);
+        params.addValue("invoiceId", identifier);
 
         // Call stored procedure / query
         return jdbcTemplate.queryForObject(
