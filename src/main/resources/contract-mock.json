@@ -1,0 +1,40 @@
+{
+  "header": {
+    "companyName": "TechSolutions Inc.",
+    "motto": "Innovating the Future",
+    "logoUrl": "https://placehold.co/100x100/A0E7E5/000000?text=Logo",
+    "contactEmail": "contact@techsolutions.com",
+    "pageTitle1": "About Us",
+    "pageTitle2": "Our Services"
+  },
+  "serviceDetails": [
+    {
+      "serviceName": "Web Development",
+      "description": "We build modern, responsive, and high-performance websites."
+    },
+    {
+      "serviceName": "Mobile App Development",
+      "description": "Cross-platform and native mobile applications for iOS and Android."
+    },
+    {
+      "serviceName": "Cloud Solutions",
+      "description": "Secure and scalable cloud infrastructure to power your business."
+    },
+    {
+      "serviceName": "AI/ML Integration",
+      "description": "Harness the power of machine learning to drive smarter decisions."
+    }
+  ],
+  "teamMembers": [
+    {
+      "name": "Jane Doe",
+      "role": "CEO & Founder",
+      "photoUrl": "https://placehold.co/150x150/B5B9FF/000000?text=Jane+Doe"
+    },
+    {
+      "name": "John Smith",
+      "role": "Chief Technology Officer",
+      "photoUrl": "https://placehold.co/150x150/B5B9FF/000000?text=John+Smith"
+    }
+  ]
+}

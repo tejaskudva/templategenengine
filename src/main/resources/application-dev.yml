@@ -35,3 +35,9 @@ documents:
       lists:
         - name: items
         - name: payments
+    contract:
+      folderIndex: 90046
+      procedure: get_contract_mock_data
+      lists:
+        - name: serviceDetails
+        - name: teamMembers
