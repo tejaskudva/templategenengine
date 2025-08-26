@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Invoice ${header.identifier}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.4;
+        }
+
+        h1,
+        h2 {
+            color: #2c3e50;
+        }
+
+        .header,
+        .totals {
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 8px;
+            text-align: left;
+        }
+
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Invoice #: <span th:text="${header.identifier}"></span></h1>
+        <p>Customer: <span th:text="${header.customerName}"></span></p>
+        <p>Email: <span th:text="${header.customerEmail}"></span></p>
+        <p>Invoice Date: <span th:text="${header.invoiceDate}"></span></p>
+        <p>Due Date: <span th:text="${header.dueDate}"></span></p>
+        <p>Notes: <span th:text="${header.notes}"></span></p>
+    </div>
+
+    <!-- Invoice Items Table -->
+    <h2>Invoice Items</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th class="text-right">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.Description}"></td>
+                <td th:text="${item.Qty}"></td>
+                <td th:text="${item.Rate}"></td>
+                <td class="text-right" th:text="${item.Amount}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Payments Table -->
+    <h2>Payments</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Payment Date</th>
+                <th>Mode</th>
+                <th class="text-right">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p : ${payments}">
+                <td th:text="${p.PaymentDate}"></td>
+                <td th:text="${p.Mode}"></td>
+                <td class="text-right" th:text="${p.Amount}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Totals Section -->
+    <div class="totals">
+        <p>Subtotal: <span th:text="${header.total - header.tax + header.discount}"></span></p>
+        <p>Tax: <span th:text="${header.tax}"></span></p>
+        <p>Discount: <span th:text="${header.discount}"></span></p>
+        <p><strong>Total: <span th:text="${header.total}"></span></strong></p>
+    </div>
+
+</body>
+
+</html>
