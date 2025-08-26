@@ -71,7 +71,7 @@ public class DocumentUploadService {
 
             // Make the POST request
             ResponseEntity<NGOAddDocumentResponseBDO> response = restTemplate.exchange(
-                    "/OmniDocsRestWS/rest/services/addDocumentJSON",
+                    ngConfig.getOdBaseUrl() + "/OmniDocsRestWS/rest/services/addDocumentJSON",
                     HttpMethod.POST,
                     requestEntity,
                     NGOAddDocumentResponseBDO.class);

@@ -25,6 +25,7 @@ newgen:
   cabinetName: rdiscabinet2
   volumeId: 1
   fallbackFolderIndex: 100
+  odBaseUrl: http://localhost:8080
 
 documents:
   map:

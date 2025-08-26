@@ -12,4 +12,5 @@ public class NewgenConfigurations {
     private String cabinetName;
     private String volumeId;
     private String fallbackFolderIndex;
+    private String odBaseUrl;
 }
