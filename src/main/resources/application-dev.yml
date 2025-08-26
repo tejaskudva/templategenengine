@@ -30,7 +30,7 @@ newgen:
 documents:
   map:
     invoice:
-      folderIndex: 10
+      folderIndex: 90046
       procedure: get_invoice_mock_data
       lists:
         - name: items
