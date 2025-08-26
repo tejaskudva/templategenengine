@@ -38,6 +38,9 @@ public class DocumentUploadService {
         try {
             String sessionId = repo.getSTypeUserSessionId();
 
+            String url = ngConfig.getOdBaseUrl() + "/OmniDocsRestWS/rest/services/addDocumentJSON";
+            log.info("url: {}", url);
+
             AddDocumentDto request = AddDocumentDto.builder()
                     .cabinetName(ngConfig.getCabinetName())
                     .userDBId(sessionId)
@@ -71,7 +74,7 @@ public class DocumentUploadService {
 
             // Make the POST request
             ResponseEntity<NGOAddDocumentResponseBDO> response = restTemplate.exchange(
-                    ngConfig.getOdBaseUrl() + "/OmniDocsRestWS/rest/services/addDocumentJSON",
+                    url,
                     HttpMethod.POST,
                     requestEntity,
                     NGOAddDocumentResponseBDO.class);
