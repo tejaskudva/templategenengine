@@ -19,7 +19,8 @@ import com.rdis.templategenengine.templategenengine.configurations.NewgenConfigu
 import com.rdis.templategenengine.templategenengine.models.AddDocumentDto;
 import com.rdis.templategenengine.templategenengine.models.AddDocumentDto.NGOAddDocumentBDO;
 import com.rdis.templategenengine.templategenengine.repository.TemplateRepository;
-import com.rdis.templategenengine.templategenengine.models.NGOAddDocumentResponseBDO;
+import com.rdis.templategenengine.templategenengine.models.ODDocumentUploadResponseDto;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -73,11 +74,11 @@ public class DocumentUploadService {
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
             // Make the POST request
-            ResponseEntity<NGOAddDocumentResponseBDO> response = restTemplate.exchange(
+            ResponseEntity<ODDocumentUploadResponseDto> response = restTemplate.exchange(
                     url,
                     HttpMethod.POST,
                     requestEntity,
-                    NGOAddDocumentResponseBDO.class);
+                    ODDocumentUploadResponseDto.class);
 
             log.info("Final API Response: {}, {}", response.getStatusCode(), response.getBody());
 
