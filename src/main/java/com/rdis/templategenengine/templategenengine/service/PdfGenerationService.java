@@ -29,6 +29,7 @@ public class PdfGenerationService {
     private final DocumentConfigService dConfigService;
     private final TemplateRepository repo;
     private final ObjectMapper mapper;
+    private final DocumentUploadService uploadService;
 
     // @formatter:off
     /**
@@ -60,7 +61,13 @@ public class PdfGenerationService {
         String htmlContent = processTemplate(documentName, data);
 
         // Step 3: Convert HTML to PDF
-        return convertHtmlToPdf(htmlContent);
+        byte[] finalPdf = convertHtmlToPdf(htmlContent);
+
+        // Step 4: Attempt to upload Document
+        DocumentConfigProperties.DocumentConfig config = dConfigService.getConfig(documentName);
+        uploadService.uploadDocumentToOD(documentName, config.getFolderIndex(), finalPdf);
+
+        return finalPdf;
     }
 
     // @formatter:off

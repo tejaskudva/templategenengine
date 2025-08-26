@@ -1,7 +1,3 @@
-documents:
-  map:
-    invoice:
-      procedure: get_invoice_mock_data
-      lists:
-        - name: items
-        - name: payments
+spring:
+  profiles:
+    active: dev

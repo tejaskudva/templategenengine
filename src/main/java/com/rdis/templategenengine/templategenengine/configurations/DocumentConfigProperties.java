@@ -17,6 +17,7 @@ public class DocumentConfigProperties {
 
     @Data
     public static class DocumentConfig {
+        private String folderIndex;
         private String procedure;
         private String template;
         private List<String> fields;

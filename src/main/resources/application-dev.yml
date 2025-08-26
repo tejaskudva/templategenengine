@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    com.rdis.templategenengine.templategenengine: INFO
+    root: INFO
+
+spring:
+  thymeleaf:
+    cache: false
+    enabled: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  datasource:
+    jndi-name: java:/rdiscabinet2
+
+app:
+  template:
+    base-path: classpath:templates/
+
+newgen:
+  cabinetName: rdiscabinet2
+  volumeId: 1
+  fallbackFolderIndex: 100
+
+documents:
+  map:
+    invoice:
+      folderIndex: 10
+      procedure: get_invoice_mock_data
+      lists:
+        - name: items
+        - name: payments
