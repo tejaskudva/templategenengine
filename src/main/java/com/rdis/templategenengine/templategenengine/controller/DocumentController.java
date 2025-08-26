@@ -30,18 +30,18 @@ public class DocumentController {
 
             byte[] pdfBytes = pdfGenerationService.generatePdf(documentName, identifier, mock);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachment",
-                    documentName + "_" + identifier + ".pdf");
-
             if (returnPdf) {
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                headers.setContentDispositionFormData("attachment",
+                        documentName + "_" + identifier + ".pdf");
+
                 return ResponseEntity.ok()
                         .headers(headers)
                         .body(pdfBytes);
             } else {
                 return ResponseEntity.ok()
-                        .headers(headers)
                         .body(FinalMockDto.builder().response("Success").build());
             }
 
