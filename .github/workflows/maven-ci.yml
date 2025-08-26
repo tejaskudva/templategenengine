@@ -19,3 +19,8 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn -B clean install --file pom.xml
+      - name: Upload WAR file
+        uses: actions/upload-artifact@v4
+        with:
+          name: templategenengine
+          path: target/*.war
